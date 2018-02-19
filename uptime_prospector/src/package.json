@@ -1,0 +1,11 @@
+{
+  "name": "uptime_prospector",
+  "version": "1.0.0",
+  "description": "Checks upness and response time for a set of services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Kimber <matt.kimber@collinsongroup.com>",
+  "license": "UNLICENSED"
+}
