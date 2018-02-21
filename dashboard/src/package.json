@@ -1,7 +1,7 @@
 {
-  "name": "uptime_prospector",
+  "name": "maturity_dashboard",
   "version": "1.0.0",
-  "description": "Checks upness and response time for a set of services",
+  "description": "Express/d3 based dashboard to show maturity",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "elasticsearch": "^14.1.0",
-    "request-promise-native": "^1.0.5"
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0"
   }
 }
