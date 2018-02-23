@@ -15,7 +15,7 @@ WORKDIR /usr/share/elasticsearch
 
 USER 1000
 
-RUN curl -fsSL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.1.tar.gz | \
+RUN curl -fsSL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.2.tar.gz | \
 		tar zx --strip-components=1 && \
 		set -ex && for ESDIR in config data logs; do \
 			mkdir -p "$ESDIR"; \
