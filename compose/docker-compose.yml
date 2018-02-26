@@ -1,4 +1,4 @@
-version: "3"
+version: "3.1"
 services:
   elastic:
     build: 
@@ -24,12 +24,21 @@ services:
     restart: always
     deploy:
       restart_policy:
-        condition: any
-        delay: 30s
+        condition: any        
         max_attempts: 10
     environment:
       ES_HOST: elastic:9200
       SITE_CONFIG: ./config/flightdata.json
       MIN_FINISH_TIME: 30000
+    secrets:
+      - dashboard_private_key
+      - dashboard_passphrase
+secrets:
+  dashboard_private_key:
+    external: true
+  dashboard_public_key:
+    external: true
+  dashboard_passphrase:
+    external: true
     
   

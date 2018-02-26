@@ -12,6 +12,27 @@ cd compose
 docker-compose build
 ```
 
+## Running
+
+Docker Swarm is required to run the service stack, as it relies on Docker's secret management.
+In order to set up a basic Swarm on a local VM (assuming a recent version of Docker CE), run
+`docker swarm init`. If you have more than one network interface, you'll need to tell it the
+advertise address using `docker swarm init --advertise-addr x.x.x.x.` instead.
+
+Before you run the stack, you will need to give it a public/private keypair for encryption
+purposes. There is a script provided in the `compose` directory for this purpose. You can
+run it using `./keygen.sh`. It will ask you for a pass phrase to provide 2 factor auth on
+the private key.
+
+(In most instances, you will not need the pass phrase again once the dashboard has been set up)
+
+Once you have set up the swarm and the secrets, deploy the stack:
+
+`docker stack deploy --compose-file=docker-compose.yml dashboard`
+
+This will either set up the stack for the first time or update it, depending on whether
+you already have the stack running on this server.
+
 ## Notes:
 
 You will need to up the value for `vm.max_map_count` in order to run ElasticSearch. You can use
