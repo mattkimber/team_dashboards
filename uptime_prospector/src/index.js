@@ -1,12 +1,13 @@
 const elasticsearch = require("elasticsearch");
 const request = require("request-promise-native");
+const config = require(process.env.SITE_CONFIG || "./config/sites.json");
 
 var getEvent = (time, err, route) => {
 	return {
 		version: 1,
 		type: "ping",
 		error: err,
-		time: time,
+		duration: time,
 		datestamp: new Date(),
 		ucr: null,
 		route: route
@@ -28,24 +29,35 @@ var checkEndpoint = function(endpoint) {
 		timeout: 8000
 	}).then(data => {
 		var duration = new Date().getTime() - start_time;
-		return Promise.resolve(getEvent(duration, null, endpoint.request.uri));
+		return Promise.resolve(getEvent(duration, null, endpoint.name));
 	}).catch(err => {
-		return Promise.resolve(getEvent(duration, err, endpoint.request.uri));
+		var duration = new Date().getTime() - start_time;
+		return Promise.resolve(getEvent(duration, err, endpoint.name));
 	})
 }
 
-var indexEvents = function(event) {
-	return client.index({
-		index: "pings",
-		type: "event",
-		body: event
-	});
+var indexEvents = function(events) {
+	var indexOperations = events.map(
+		e => client.index({
+			index: "pings",
+			type: "event",
+			body: e
+		}));
+	
+	return Promise.all(indexOperations);
 }
 
-checkEndpoint({
-	request: {
-		uri: "http://www.google.com/",
-		method: "GET"
-	}
-}).then(indexEvents)
-.then(() => console.log("Done"))
+var getTimeoutLength = function(start_time) {
+	var retval = (process.env.MIN_FINISH_TIME || 30000) - (new Date().getTime() - start_time);
+	console.log("Finished early: waiting for " + retval + "ms");
+	return retval < 0 ? 0 : retval;
+}
+
+var global_start_time = new Date().getTime();
+
+Promise
+	.all(config.map(c => checkEndpoint(c)))
+	.then(indexEvents)
+	.then(() => new Promise(resolve => setTimeout(resolve, getTimeoutLength(global_start_time))))
+	.then(console.log("Done"))
+	.catch(console.log);

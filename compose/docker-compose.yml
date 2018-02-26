@@ -16,4 +16,20 @@ services:
       ELASTICSEARCH_URL: http://elastic:9200
     ports:
      - "5601:5601"
+  uptime_prospector:
+    build:
+      context: ../uptime_prospector
+      dockerfile: Dockerfile
+    image: collinsongroup/uptime_prospector:latest
+    restart: always
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 30s
+        max_attempts: 10
+    environment:
+      ES_HOST: elastic:9200
+      SITE_CONFIG: ./config/flightdata.json
+      MIN_FINISH_TIME: 30000
+    
   
