@@ -1,12 +1,15 @@
 version: "3.1"
 services:
+  dashboard:
+    build:
+      context: ../dashboard
+      dockerfile: Dockerfile
+    image: collinsongroup/dashboard:latest
   elastic:
     build: 
       context: ../db
       dockerfile: Dockerfile
     image: collinsongroup/elasticsearch:latest
-    ports:
-     - "9200:9200"
   kibana:
     build:
       context: ../kibana
@@ -25,7 +28,6 @@ services:
     deploy:
       restart_policy:
         condition: any        
-        max_attempts: 10
     environment:
       ES_HOST: elastic:9200
       SITE_CONFIG: ./config/flightdata.json
@@ -33,6 +35,13 @@ services:
     secrets:
       - dashboard_private_key
       - dashboard_passphrase
+  webserver:
+    build:
+      context: ../webserver
+      dockerfile: Dockerfile
+    image: collinsongroup/dashboard_server:latest
+    ports: 
+      - "80:80"
 secrets:
   dashboard_private_key:
     external: true

@@ -26,12 +26,22 @@ the private key.
 
 (In most instances, you will not need the pass phrase again once the dashboard has been set up)
 
+If you wish to supply your own private/public key pairs, the contents of this script file
+will show how to add them.
+
 Once you have set up the swarm and the secrets, deploy the stack:
 
 `docker stack deploy --compose-file=docker-compose.yml dashboard`
 
 This will either set up the stack for the first time or update it, depending on whether
 you already have the stack running on this server.
+
+## Accessing
+
+There are multiple URLs available behind the main dashboard:
+
+* `/kibana` - access Kibana for setting up custom dashboards
+* `/config` - configuration panel
 
 ## Notes:
 
