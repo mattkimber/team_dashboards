@@ -1,0 +1,21 @@
+{
+  "name": "dashboard_api",
+  "version": "1.0.0",
+  "description": "Backend API for the dashboard system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Kimber <matt.kimber@collinsongroup.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "elasticsearch": "^14.1.0",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
+    "jsonwebtoken": "^8.1.1",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "uuid": "^3.2.1"
+  }
+}
