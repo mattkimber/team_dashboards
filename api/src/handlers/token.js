@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const data = require("../lib/data.js");
 const passwordHash = require("../lib/password_hash.js");
-const secret = require("../lib/secret.js");
+const secrets = require("../lib/secrets.js");
 
 module.exports = {
     post: (req, res) =>
@@ -29,7 +29,7 @@ module.exports = {
                 }
 
                 res.json({
-                    token: jwt.sign(options, secret)
+                    token: jwt.sign(options, secrets.jwt_signing_key)
                 });
             })
             .catch((err) => res.status(err.status || 500).json(err))

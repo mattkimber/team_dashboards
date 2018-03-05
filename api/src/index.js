@@ -1,7 +1,7 @@
 const Express = require("express");
 const BodyParser = require("body-parser");
 const Jwt = require("express-jwt");
-const secret = require("./lib/secret.js");
+const secrets = require("./lib/secrets.js");
 
 var app = Express();
 
@@ -9,7 +9,7 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(BodyParser.json());
 app.use(Jwt({
-    secret: secret,
+    secret: secrets.jwt_signing_key,
     credentialsRequired: false
 }));
 
