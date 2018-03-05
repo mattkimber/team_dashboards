@@ -39,4 +39,17 @@ describe("Endpoint encrypter", function() {
         done();
       });
   });
+
+  it("Should strip sensitive header values", function(done) {
+    encrypter
+      .secure(test_data)
+      .then(encrypter.strip)
+      .then((data) => {
+        assert.ok(data.request.headers["public"].value);
+        assert.ok(data.request.headers["public"].value === test_data.request.headers["public"].value);
+        assert.ok(!data.request.headers["sensitive"].value);
+        assert.ok(!data.request.headers["sensitive"].encrypted_key);
+        done();
+      });    
+  })
 })

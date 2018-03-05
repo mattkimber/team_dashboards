@@ -25,5 +25,7 @@ module.exports = {
     getConfig: () => getData("config", "configuration", "main"),
     setConfig: (config) => putData("config", "configuration", "main", config),
     getPasswordHash: () => getData("password", "passwordHash", "main"),
-    setPasswordHash: (hash) => putData("password", "passwordHash", "main", {data: hash})
+    setPasswordHash: (hash) => putData("password", "passwordHash", "main", {data: hash}),
+    getEndpoint: (id) => getData("endpoints", "endpoint", id),
+    putEndpoint: (id, endpoint) => putData("endpoints", "endpoint", id, endpoint)
 }

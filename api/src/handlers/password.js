@@ -5,12 +5,12 @@ module.exports = {
     put: (req, res) =>
         data
             .getPasswordHash()
-            .then((data) => {
+            .then((result) => {
                 if(!passwordHash.isValidPasswordHash(req.body.passwordHash)) {
                     return Promise.reject({status: 400, reason: "input is not a valid bcrypt hash"})
                 }
 
-                if(data && !req.user) {
+                if(result && !req.user) {
                     return Promise.reject({status: 403, reason: "not authorised"});
                 }
                 
@@ -18,6 +18,6 @@ module.exports = {
             })
             .then(() => passwordHash.getHashedPassword(req.body.passwordHash))
             .then(data.setPasswordHash)
-            .then((data) => res.json(data))
+            .then((result) => res.json(result))
             .catch((err) => res.status(err.status || 500).json(err))
 }

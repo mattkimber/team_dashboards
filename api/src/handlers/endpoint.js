@@ -1,10 +1,21 @@
 const data = require("../lib/data.js");
 const secrets = require("../lib/secrets.js");
-const encryptEndpoints = require("../lib/endpoint_encrypter.js")(secrets.public_key);
+const encrypter = require("../lib/endpoint_encrypter.js")(secrets.public_key);
 
 module.exports = {
-  //put: (req, res) =>
-
-  //  .then((data) => res.json(data))
-//    .catch((err) => res.status(500).json(err))
+  get: (req, res) =>
+  data
+      .getEndpoint(req.params.id)
+      .then(encrypter.strip)
+      .then((result) => res.json(result))
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err)
+      }),
+  put: (req, res) =>
+    encrypter
+      .secure(req.body)
+      .then((result) => data.putEndpoint(req.params.id, req.body))
+      .then((result) => res.json(result))
+      .catch((err) => res.status(500).json(err))      
 };

@@ -1,4 +1,4 @@
-const Uuid = require("uuid/v4");
+const crypto = require("crypto");
 const fs = require("fs");
 
 var getPublicKey = () => {
@@ -16,6 +16,6 @@ var getPublicKey = () => {
 };
 
 module.exports = {
-    jwt_signing_key: Uuid(),
+    jwt_signing_key: crypto.randomBytes(64).toString("base64"),
     public_key: getPublicKey()
 };

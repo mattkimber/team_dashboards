@@ -8,10 +8,15 @@ var app = Express();
 app.set("port", process.env.PORT || 3000);
 
 app.use(BodyParser.json());
-app.use(Jwt({
-    secret: secrets.jwt_signing_key,
-    credentialsRequired: false
-}));
+
+if (!process.env.NO_JWT) {
+    app.use(Jwt({
+        secret: secrets.jwt_signing_key,
+        credentialsRequired: false
+    }));
+} else {
+    console.log("Starting in INSECURE mode");
+}
 
 require("./routes")(app);
 

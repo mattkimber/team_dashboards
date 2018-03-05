@@ -1,14 +1,5 @@
 const crypto = require("crypto");
-
-var copy = (source) => {
-  var dest, v, k;
-  dest = Array.isArray(source) ? [] : {};
-  for (k in source) {
-    v = source[k];
-    dest[k] = (typeof v === "object") ? copy(v) : v;
-  }
-  return dest;
-};
+const copy = require("./copy.js");
 
 var encrypt = (text, key) => {
   var cipher = crypto.createCipher("aes-256-ctr", key);
@@ -34,6 +25,20 @@ var secureData = (data, public_key) => {
   return Promise.resolve(clone);
 };
 
+var stripSecureHeaders = (data) => {
+  var clone = copy(data);
+
+  for(var h in clone.request.headers) {
+    if(clone.request.headers[h].is_sensitive) {
+      clone.request.headers[h].value = null;
+      clone.request.headers[h].encrypted_key = null;
+    }
+  }
+
+  return Promise.resolve(clone);
+}
+
 module.exports = (public_key) => ({
-  secure: (data) => secureData(data, public_key)
+  secure: (data) => secureData(data, public_key),
+  strip: (data) => stripSecureHeaders(data)
 });
