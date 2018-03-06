@@ -16,7 +16,7 @@ module.exports = {
                     return Promise.reject({status: 400, reason: "input is not a valid bcrypt hash"});
                 }
 
-                return passwordHash.passwordMatches(req.body.passwordHash, data.data);
+                return passwordHash.passwordMatches(req.body.passwordHash, data.hash, data.salt);
             })
             .then((result) => {
                 if(!result) {

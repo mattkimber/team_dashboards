@@ -5,7 +5,7 @@ var getPublicKey = () => {
     var key = ""
     
     try {
-        fs.readFileSync("/run/secrets/dashboard_public_key");
+        key = fs.readFileSync("/run/secrets/dashboard_public_key");
         return key;
     } catch(err) {
         if(process.env.DASHBOARD_PUBLIC_KEY) {

@@ -1,6 +1,8 @@
-const elasticsearch = require("elasticsearch");
 const request = require("request-promise-native");
-const config = require(process.env.SITE_CONFIG || "./config/sites.json");
+const data = require("./lib/data.js");
+const secrets = require("./lib/secrets.js");
+const decrypter = require("./lib/decrypter.js");
+
 
 var getEvent = (time, err, route) => {
 	return {
@@ -13,10 +15,6 @@ var getEvent = (time, err, route) => {
 		route: route
 	};
 }
-
-var client = new elasticsearch.Client({
-	host: process.env.ES_HOST || "localhost:9200"
-})
 
 var checkEndpoint = function(endpoint) {
 	var start_time = new Date().getTime();
@@ -31,20 +29,16 @@ var checkEndpoint = function(endpoint) {
 		var duration = new Date().getTime() - start_time;
 		return Promise.resolve(getEvent(duration, null, endpoint.name));
 	}).catch(err => {
+		// Anonymise potentially sensitive information
+		err.options.headers = null;
+		
 		var duration = new Date().getTime() - start_time;
 		return Promise.resolve(getEvent(duration, err, endpoint.name));
 	})
 }
 
 var indexEvents = function(events) {
-	var indexOperations = events.map(
-		e => client.index({
-			index: "pings",
-			type: "event",
-			body: e
-		}));
-	
-	return Promise.all(indexOperations);
+	return Promise.all(events.map(e => data.putEvent(e)));
 }
 
 var getTimeoutLength = function(start_time) {
@@ -55,8 +49,10 @@ var getTimeoutLength = function(start_time) {
 
 var global_start_time = new Date().getTime();
 
-Promise
-	.all(config.map(c => checkEndpoint(c)))
+data
+	.getEndpoints()
+	.then((data) => Promise.all(data.map(d => decrypter.decrypt(d, secrets.private_key, secrets.passphrase))))
+	.then((data) => Promise.all(data.map(d => checkEndpoint(d))))	
 	.then(indexEvents)
 	.then(() => new Promise(resolve => setTimeout(resolve, getTimeoutLength(global_start_time))))
 	.then(console.log("Done"))

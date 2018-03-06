@@ -15,7 +15,7 @@ module.exports = {
   put: (req, res) =>
     encrypter
       .secure(req.body)
-      .then((result) => data.putEndpoint(req.params.id, req.body))
+      .then((result) => data.putEndpoint(req.params.id, result))
       .then((result) => res.json(result))
       .catch((err) => res.status(500).json(err))      
 };

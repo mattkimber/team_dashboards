@@ -1,0 +1,26 @@
+const elasticsearch = require("elasticsearch");
+
+var client = new elasticsearch.Client({
+	host: process.env.ES_HOST || "localhost:9200"
+});
+
+var getAllData = (index) => client
+  .search({
+    index: index,
+    q: "*.*",
+    size: 1024
+  })
+  .then((data) => Promise.resolve(data.hits.hits.map(h => h._source)))
+  .catch((err) => err.status === 404 ? Promise.resolve([]) : Promise.reject(err));
+
+var putData = (index, type, data) => client
+    .index({
+        index: index,
+        type: type,
+        body: data
+    });
+
+module.exports = {
+    getEndpoints: () => getAllData("endpoints"),
+    putEvent: (event) => putData("pings", "event", event)
+}

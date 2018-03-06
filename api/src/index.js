@@ -18,6 +18,14 @@ if (!process.env.NO_JWT) {
     console.log("Starting in INSECURE mode");
 }
 
+app.use((req,res,next) => {
+    // Handle nginx forwarding oddity
+    if(req.url.startsWith("//")) {
+        req.url = req.url.substr(1);
+    }
+    next();
+});
+
 require("./routes")(app);
 
 app.listen(app.get("port"), function() {

@@ -17,7 +17,7 @@ module.exports = {
                 return Promise.resolve();                
             })
             .then(() => passwordHash.getHashedPassword(req.body.passwordHash))
-            .then(data.setPasswordHash)
+            .then((result) => data.setPasswordHash(result.hash, result.salt))
             .then((result) => res.json(result))
             .catch((err) => res.status(err.status || 500).json(err))
 }

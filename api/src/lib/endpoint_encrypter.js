@@ -10,6 +10,8 @@ var encrypt = (text, key) => {
 
 var secureData = (data, public_key) => {
   var clone = copy(data);
+  
+  if(!clone.request || !clone.request.headers) return Promise.resolve(clone);
 
   for(var h in clone.request.headers) {
     if(clone.request.headers[h].is_sensitive) {
@@ -17,7 +19,7 @@ var secureData = (data, public_key) => {
 
       var encrypted_key = crypto.publicEncrypt(public_key, key, "utf-8");
 
-      clone.request.headers[h].value = encrypt(clone.request.headers[h].value, encrypted_key);
+      clone.request.headers[h].value = encrypt(clone.request.headers[h].value, key);
       clone.request.headers[h].encrypted_key = encrypted_key.toString("base64");
     }
   }
