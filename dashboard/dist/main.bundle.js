@@ -217,13 +217,22 @@ var ResponseTimeGaugeComponent = /** @class */ (function () {
             },
             {
                 type: "pie",
-                values: [50 / 3, 50 / 3, 50 / 3, 50],
-                rotation: 90,
-                text: ["Poor", "Average", "Good"],
+                values: [50 / 3, 5 / 6, 45 / 3, 5 / 6, 50 / 3, 50],
+                rotation: -90,
+                sort: false,
+                direction: "clockwise",
+                text: ["Good", "", "Average", "", "Poor", ""],
                 textinfo: "text",
                 textposition: "inside",
-                marker: { colors: ["rgba(255,0,0,.5)", "rgba(255,255,0,.5)", "rgba(0,127,0,.5)", "rgba(255,255,255,1)"] },
-                labels: ["667-1000", "333-667", "0-333", ""],
+                marker: { colors: [
+                        "rgba(0,127,0,.5)",
+                        "rgba(127,192,0,.5)",
+                        "rgba(255,255,0,.5)",
+                        "rgba(255,127,0,.5)",
+                        "rgba(255,0,0,.5)",
+                        "rgba(255,255,255,1)"
+                    ] },
+                labels: ["0-333", "", "333-667", "", "667-1000", ""],
                 hoverinfo: "label",
                 hole: 0.5,
                 showlegend: false
