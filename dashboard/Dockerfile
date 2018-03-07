@@ -1,6 +1,14 @@
-FROM collinsongroup/nodejs:8.9.4
+FROM centos:7
 LABEL maintainer "Matt Kimber <matt.kimber@collinsongroup.com>"
 
-COPY src /usr/local/bin/dashboard
+RUN yum install -y epel-release && \
+    yum install -y nginx
 
-CMD ["node", "/usr/local/bin/dashboard"]
+COPY config/nginx.conf /etc/nginx/nginx.conf
+COPY dist /usr/share/nginx/html
+
+WORKDIR /etc/nginx
+
+EXPOSE 80
+
+CMD ["nginx"]

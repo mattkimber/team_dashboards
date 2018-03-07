@@ -20,5 +20,5 @@ EXPOSE 5601
 
 USER kibana
 
-CMD ["/bin/bash", "/usr/local/bin/kibana-docker"]
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/kibana-docker"]
 

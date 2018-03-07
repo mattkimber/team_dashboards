@@ -1,10 +1,15 @@
 const elasticsearch = require("elasticsearch");
 
-var client = new elasticsearch.Client({
-	host: process.env.ES_HOST || "localhost:9200"
+var data_client = new elasticsearch.Client({
+	host: process.env.ES_DATA_HOST || "localhost:9200"
 });
 
-var getAllData = (index) => client
+var config_client = new elasticsearch.Client({
+	host: process.env.ES_CONFIG_HOST || "localhost:9200"
+});
+
+
+var getAllData = (index) => config_client
   .search({
     index: index,
     q: "*.*",
@@ -13,7 +18,7 @@ var getAllData = (index) => client
   .then((data) => Promise.resolve(data.hits.hits.map(h => h._source)))
   .catch((err) => err.status === 404 ? Promise.resolve([]) : Promise.reject(err));
 
-var putData = (index, type, data) => client
+var putData = (index, type, data) => data_client
     .index({
         index: index,
         type: type,
