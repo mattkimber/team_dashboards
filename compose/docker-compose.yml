@@ -5,16 +5,22 @@ services:
       context: ../api
       dockerfile: Dockerfile
     image: collinsongroup/dashboard_api:latest
+    depends_on:
+      - elastic_config
+      - elastic_data    
     secrets:
       - dashboard_public_key
     environment:
       NO_JWT: "true"
-      ES_HOST: "elastic_config:9200"
+      ES_CONFIG_HOST: elastic_config:9200
+      ES_DATA_HOST: elastic_data:9200
   dashboard:
     build:
       context: ../dashboard
       dockerfile: Dockerfile
     image: collinsongroup/dashboard:latest
+    depends_on:
+      - api
   elastic_data:
     build: 
       context: ../db
@@ -30,6 +36,8 @@ services:
       context: ../kibana
       dockerfile: Dockerfile
     image: collinsongroup/kibana:latest
+    depends_on:
+      - elastic_data
     environment:
       ELASTICSEARCH_URL: http://elastic_data:9200
     ports:
@@ -39,6 +47,9 @@ services:
       context: ../uptime_prospector
       dockerfile: Dockerfile
     image: collinsongroup/uptime_prospector:latest
+    depends_on:
+      - elastic_config
+      - elastic_data
     restart: always
     deploy:
       restart_policy:
@@ -56,6 +67,10 @@ services:
       context: ../webserver
       dockerfile: Dockerfile
     image: collinsongroup/dashboard_server:latest
+    depends_on: 
+      - api
+      - dashboard
+      - kibana
     ports: 
       - "80:80"
 secrets:

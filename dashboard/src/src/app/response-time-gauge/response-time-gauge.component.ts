@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as Plotly from "plotly.js";
 import {Config, Data, Layout} from "plotly.js";
 import {DataService} from "../data.service";
+import {PerformanceMetrics} from "../performance-metrics";
 
 @Component({
   selector: 'app-response-time-gauge',
@@ -11,23 +12,21 @@ import {DataService} from "../data.service";
 export class ResponseTimeGaugeComponent implements OnInit {
 
   @ViewChild("chart") el: ElementRef;
-  responseTime = [];
-  interval = {};
+  private chart_degrees = 220;
+
+  private metrics: PerformanceMetrics;
 
   constructor(private _data: DataService) { }
 
-  ngOnInit() {
-    this._data.responseTime.subscribe(res => this.responseTime = res);
-    this._data.getMedianResponseTime();
-    
-    this.updateGraph();
-    this.interval = setInterval(() => {
+  ngOnInit() {    
+    this._data.data.subscribe(result => { 
+      this.metrics = result; 
       this.updateGraph();
-    }, 5000);
+    })
   }
 
   private getPath(response_time) {
-    var degrees = 180 - ((response_time * 18) / 100);
+    var degrees = ((this.chart_degrees / 2) + 90) - ((response_time * this.chart_degrees) / 1000);
     var radius = 0.5;
 
     var radians = degrees * Math.PI / 180;
@@ -40,7 +39,7 @@ export class ResponseTimeGaugeComponent implements OnInit {
     return path;
   }
 
-  private getGraphData(response_time) {    
+  private getGraphData(response_time) {
     return [
       { 
         type: "scatter",
@@ -48,14 +47,14 @@ export class ResponseTimeGaugeComponent implements OnInit {
         y: [0],
         marker: {size: 28, color: "333333" },
         showlegend: false,
-        name: "Median Response Time (ms)",
+        name: "ms",
         text: response_time,
         hoverinfo: "text+name"
       },
       {
         type: "pie",        
-        values: [50/3, 5/6, 45/3, 5/6, 50/3, 50],
-        rotation: -90,
+        values: [(this.chart_degrees / 3), (this.chart_degrees / 24), (this.chart_degrees / 3) - ((this.chart_degrees / 12)), (this.chart_degrees / 24), (this.chart_degrees / 3), 360 - this.chart_degrees],
+        rotation: -(this.chart_degrees / 2),
         sort: false,
         direction: "clockwise",
         text: [ "Good", "", "Average", "", "Poor", ""],
@@ -87,7 +86,7 @@ export class ResponseTimeGaugeComponent implements OnInit {
           color: "444444"
         }
       }],
-      title: "Median Response Time",
+      title: "Median Response Time: " + Math.round(response_time) + "ms",
       height: 600,
       width: 600,
       xaxis: { zeroline: false, showticklabels: false, showgrid: false, range: [-1,1]},
@@ -97,7 +96,7 @@ export class ResponseTimeGaugeComponent implements OnInit {
 
   private updateGraph() {
     const element = this.el.nativeElement;
-    var response_time = 100 + (Math.random() * 600); //this._data.responseTime[this.responseTime.length - 1];
+    var response_time = this.metrics.median_response_time;
     Plotly.newPlot(element, this.getGraphData(response_time), this.getLayout(response_time));
   }
 

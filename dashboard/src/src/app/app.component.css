@@ -1,0 +1,16 @@
+div.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(600px, auto);
+}
+
+div.response-time-gauge {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+div.percentiles-chart {
+  grid-row: 1;
+  grid-column: 2;
+}

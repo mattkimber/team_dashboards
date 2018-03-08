@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from "rxjs";
+import { PerformanceMetrics } from "./performance-metrics";
+import { HttpClient } from "@angular/common/http";
+import "rxjs/add/operator/map";
 
 @Injectable()
 export class DataService {
 
-  private responseTimes = new BehaviorSubject<any>([100,200]);
-  responseTime = this.responseTimes.asObservable();
+  data: Observable<PerformanceMetrics>;
+  private timer = Observable.timer(0, 15000);
 
-  constructor() { }
+  constructor(private http:HttpClient) {
+    this.data = this.timer
+      .flatMap((i) => this.http.get<PerformanceMetrics>("/api/metrics/performance"));
+   }
 
-  getMedianResponseTime() {
-    this.responseTimes.next(100 + (Math.random() * 200));
   }
-
-}
