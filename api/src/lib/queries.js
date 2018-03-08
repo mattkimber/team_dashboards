@@ -35,6 +35,19 @@ module.exports = {
             }
           }
         }
+      },
+      response_time_history: {
+        date_histogram: {
+          field: "datestamp",
+          interval: "30s"
+        },
+        aggregations: {
+          average_duration: {
+            avg: {
+              field: "duration"
+            }
+          }
+        }
       }
     }
   }

@@ -20,14 +20,14 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "div.grid-wrapper {\r\n  display: -ms-grid;\r\n  display: grid;\r\n  -ms-grid-columns: (1fr)[2];\r\n      grid-template-columns: repeat(2, 1fr);\r\n  grid-gap: 10px;\r\n  grid-auto-rows: minmax(600px, auto);\r\n}\r\n\r\ndiv.response-time-gauge {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 1;\r\n  grid-column: 1;\r\n}\r\n\r\ndiv.percentiles-chart {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 2;\r\n  grid-column: 2;\r\n}"
+module.exports = "div.grid-wrapper {\r\n  display: -ms-grid;\r\n  display: grid;\r\n  -ms-grid-columns: (1fr)[2];\r\n      grid-template-columns: repeat(2, 1fr);\r\n  grid-gap: 10px;\r\n  grid-auto-rows: minmax(600px, auto);\r\n}\r\n\r\ndiv.response-time-gauge {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 1;\r\n  grid-column: 1;\r\n}\r\n\r\ndiv.percentiles-chart {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 2;\r\n  grid-column: 2;\r\n}\r\n\r\ndiv.response-history {\r\n  -ms-grid-row: 2;\r\n  grid-row: 2;\r\n  -ms-grid-column: 1;\r\n  -ms-grid-column-span: 2;\r\n  grid-column: 1 / 3;\r\n}"
 
 /***/ }),
 
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>{{title}}</h1>\n<div class=\"grid-wrapper\">\n  <div class=\"response-time-gauge\">\n    <app-response-time-gauge></app-response-time-gauge>\n  </div>\n  <div class=\"percentiles-chart\">\n    <app-percentiles-chart></app-percentiles-chart>\n  </div>\n</div>"
+module.exports = "<h1>{{title}}</h1>\n<div class=\"grid-wrapper\">\n  <div class=\"response-time-gauge\">\n    <app-response-time-gauge></app-response-time-gauge>\n  </div>\n  <div class=\"percentiles-chart\">\n    <app-percentiles-chart></app-percentiles-chart>\n  </div>\n  <div class=\"response-history\">\n      <app-response-histogram></app-response-histogram>\n  </div>  \n</div>"
 
 /***/ }),
 
@@ -74,12 +74,14 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__response_time_gauge_response_time_gauge_component__ = __webpack_require__("./src/app/response-time-gauge/response-time-gauge.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_service__ = __webpack_require__("./src/app/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__percentiles_chart_percentiles_chart_component__ = __webpack_require__("./src/app/percentiles-chart/percentiles-chart.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__response_histogram_response_histogram_component__ = __webpack_require__("./src/app/response-histogram/response-histogram.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -95,7 +97,8 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_4__response_time_gauge_response_time_gauge_component__["a" /* ResponseTimeGaugeComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__percentiles_chart_percentiles_chart_component__["a" /* PercentilesChartComponent */]
+                __WEBPACK_IMPORTED_MODULE_6__percentiles_chart_percentiles_chart_component__["a" /* PercentilesChartComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__response_histogram_response_histogram_component__["a" /* ResponseHistogramComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -259,6 +262,91 @@ var PercentilesChartComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__data_service__["a" /* DataService */]])
     ], PercentilesChartComponent);
     return PercentilesChartComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/response-histogram/response-histogram.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/response-histogram/response-histogram.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div #chart>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/response-histogram/response-histogram.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResponseHistogramComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_plotly_js__ = __webpack_require__("./node_modules/plotly.js/dist/plotly-cartesian.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_plotly_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_plotly_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_service__ = __webpack_require__("./src/app/data.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ResponseHistogramComponent = /** @class */ (function () {
+    function ResponseHistogramComponent(_data) {
+        this._data = _data;
+    }
+    ResponseHistogramComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._data.data.subscribe(function (result) {
+            _this.metrics = result;
+            _this.updateGraph();
+        });
+    };
+    ResponseHistogramComponent.prototype.getGraphData = function () {
+        return [{
+                type: "scatter",
+                mode: "lines",
+                name: "Average Duration (ms)",
+                x: this.metrics.response_time_history.map(function (m) { return m.timestamp; }),
+                y: this.metrics.response_time_history.map(function (m) { return m.average_duration; }),
+                line: { color: "#7F7F7F" }
+            }];
+    };
+    ResponseHistogramComponent.prototype.getLayout = function () {
+        return {
+            title: "Response Time History"
+        };
+    };
+    ResponseHistogramComponent.prototype.updateGraph = function () {
+        var element = this.el.nativeElement;
+        var response_time = this.metrics.median_response_time;
+        __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(), this.getLayout());
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* ViewChild */])("chart"),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["r" /* ElementRef */])
+    ], ResponseHistogramComponent.prototype, "el", void 0);
+    ResponseHistogramComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'app-response-histogram',
+            template: __webpack_require__("./src/app/response-histogram/response-histogram.component.html"),
+            styles: [__webpack_require__("./src/app/response-histogram/response-histogram.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__data_service__["a" /* DataService */]])
+    ], ResponseHistogramComponent);
+    return ResponseHistogramComponent;
 }());
 
 

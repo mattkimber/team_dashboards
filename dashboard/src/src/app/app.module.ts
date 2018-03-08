@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { ResponseTimeGaugeComponent } from './response-time-gauge/response-time-gauge.component';
 import { DataService } from "./data.service";
 import { PercentilesChartComponent } from './percentiles-chart/percentiles-chart.component';
+import { ResponseHistogramComponent } from './response-histogram/response-histogram.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ResponseTimeGaugeComponent,
-    PercentilesChartComponent
+    PercentilesChartComponent,
+    ResponseHistogramComponent
   ],
   imports: [
     BrowserModule,

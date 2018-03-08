@@ -6,6 +6,10 @@ export class PerformanceMetrics {
       p_50: number,
       p_90: number,
       p_99: number
+    }],
+    public response_time_history: [{
+      timestamp: string,
+      average_duration: number
     }]
   ) {}
 }
