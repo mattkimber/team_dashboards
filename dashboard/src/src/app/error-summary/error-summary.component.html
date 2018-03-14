@@ -1,0 +1,16 @@
+<div class="errors-big">
+<p>
+  <em>{{ totalErrors }}</em> errors
+</p>
+</div>
+<div class="errors-detail" *ngIf="totalErrors > 0">
+<p>
+  Least reliable: <em>{{ leastReliableEndpoint.name }}</em> ({{ leastReliableEndpoint.amount }} errors)
+</p>
+<p>
+  Most reliable: <em>{{ mostReliableEndpoint.name }}</em> ({{ mostReliableEndpoint.amount }} errors)
+</p>
+<p>
+  Most common: <em>{{ mostCommonError.name }}</em> ({{mostCommonError.amount}} errors)
+</p>
+</div>

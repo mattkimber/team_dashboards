@@ -48,6 +48,20 @@ module.exports = {
             }
           }
         }
+      },
+      errors: {
+        terms: {
+          field: "error.message.keyword",
+          size: 20
+        },
+        aggregations: {
+          route: {
+            terms: {
+              field: "route.keyword",
+              size: 5
+            }
+          }
+        }
       }
     }
   }

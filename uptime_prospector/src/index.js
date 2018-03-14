@@ -27,12 +27,33 @@ var checkEndpoint = function(endpoint) {
 		timeout: 8000
 	}).then(data => {
 		var duration = new Date().getTime() - start_time;
+		console.log("Called " + endpoint.request.uri + " successfully (" + duration + "ms)");
 		return Promise.resolve(getEvent(duration, null, endpoint.name));
 	}).catch(err => {
 		// Anonymise potentially sensitive information
-		err.options.headers = null;
-		
+		if(err.options && err.options.headers) {
+			err.options.headers = null;
+		}
+
+		if(typeof(err) !== "object") {
+			err = { error: { message: err }};
+		}
+
+		if(typeof(err.error) !== "object") {
+			err.error = { message: err.error };
+		}
+
+		if (err.error && !err.error.code && err.statusCode) {
+			err.error.code = err.statusCode;
+		} else if (err.error && !err.error.code && err.cause.code) {
+			err.error.code = err.cause.code;
+		} else if (err.error && !err.error.code) {
+			err.error.code = "UNKNOWN";
+		}
+
+
 		var duration = new Date().getTime() - start_time;
+		console.log("Called " + endpoint.request.uri + " and got an error (" + duration + "ms)");
 		return Promise.resolve(getEvent(duration, err, endpoint.name));
 	})
 }
@@ -55,5 +76,5 @@ data
 	.then((data) => Promise.all(data.map(d => checkEndpoint(d))))	
 	.then(indexEvents)
 	.then(() => new Promise(resolve => setTimeout(resolve, getTimeoutLength(global_start_time))))
-	.then(console.log("Done"))
+	.then(() => { console.log("Done") })
 	.catch(console.log);

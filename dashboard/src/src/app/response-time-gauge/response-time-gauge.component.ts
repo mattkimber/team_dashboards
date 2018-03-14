@@ -96,8 +96,12 @@ export class ResponseTimeGaugeComponent implements OnInit {
 
   private updateGraph() {
     const element = this.el.nativeElement;
-    var response_time = this.metrics.median_response_time;
-    Plotly.newPlot(element, this.getGraphData(response_time), this.getLayout(response_time));
+    if(this.metrics) {
+      var response_time = this.metrics.median_response_time;
+      Plotly.newPlot(element, this.getGraphData(response_time), this.getLayout(response_time));
+    } else {
+      element.text = "No data";
+    }
   }
 
 }

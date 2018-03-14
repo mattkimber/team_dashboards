@@ -68,7 +68,12 @@ export class PercentilesChartComponent implements OnInit {
 
   private updateGraph() {
     const element = this.el.nativeElement;
-    var response_time = this.metrics.median_response_time;
-    Plotly.newPlot(element, this.getGraphData(), this.getLayout());
+
+    if(this.metrics) {
+      var response_time = this.metrics.median_response_time;
+      Plotly.newPlot(element, this.getGraphData(), this.getLayout());
+    } else {
+      element.text = "No data";
+    }
   }
 }

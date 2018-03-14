@@ -1,6 +1,6 @@
 const data = require("../lib/data.js");
 
-var getMetrics = (metrics) => ({
+var getMetrics = (metrics) => metrics ? ({
   median_response_time: metrics.percentiles.values["50.0"],
   response_times_by_endpoint: metrics.response_times_by_endpoint.buckets
     .map(b => ({
@@ -15,10 +15,19 @@ var getMetrics = (metrics) => ({
     .map(b => ({
       timestamp: b.key_as_string,
       average_duration: b.average_duration.value
+    })),
+  errors: metrics.errors.buckets.map(b => ({
+    error: b.key,
+    total: b.route.buckets.reduce((acc, cur) => acc + cur.doc_count, 0),
+    routes: b.route.buckets.map((r) => ({
+      route: r.key,
+      errors: r.doc_count
     }))
-});
+  }))
+}) : null;
 
 module.exports = {
-  get: (req, res) => data.getPerformance()
+  get: (req, res) => data
+    .getPerformance()
     .then((result) => res.json(getMetrics(result)))
 };

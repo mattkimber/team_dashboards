@@ -10,6 +10,14 @@ export class PerformanceMetrics {
     public response_time_history: [{
       timestamp: string,
       average_duration: number
+    }],
+    public errors: [{
+      error: string,
+      total: number,
+      routes: [{
+        route: string,
+        errors: number
+      }]
     }]
   ) {}
 }

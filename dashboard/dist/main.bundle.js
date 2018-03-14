@@ -20,14 +20,14 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "div.grid-wrapper {\r\n  display: -ms-grid;\r\n  display: grid;\r\n  -ms-grid-columns: (1fr)[2];\r\n      grid-template-columns: repeat(2, 1fr);\r\n  grid-gap: 10px;\r\n  grid-auto-rows: minmax(600px, auto);\r\n}\r\n\r\ndiv.response-time-gauge {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 1;\r\n  grid-column: 1;\r\n}\r\n\r\ndiv.percentiles-chart {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 2;\r\n  grid-column: 2;\r\n}\r\n\r\ndiv.response-history {\r\n  -ms-grid-row: 2;\r\n  grid-row: 2;\r\n  -ms-grid-column: 1;\r\n  -ms-grid-column-span: 2;\r\n  grid-column: 1 / 3;\r\n}"
+module.exports = "div.grid-wrapper {\r\n  display: -ms-grid;\r\n  display: grid;\r\n  -ms-grid-columns: (1fr)[6];\r\n      grid-template-columns: repeat(6, 1fr);\r\n  grid-auto-rows: minmax(400px, auto);\r\n}\r\n\r\ndiv.response-time-gauge {\r\n  -ms-grid-row: 1;\r\n  -ms-grid-row-span: 2;\r\n  grid-row: 1/3;\r\n  -ms-grid-column: 1;\r\n  -ms-grid-column-span: 2;\r\n  grid-column: 1/3;\r\n  z-index: 0;\r\n}\r\n\r\ndiv.percentiles-chart {\r\n  -ms-grid-row: 1;\r\n  -ms-grid-row-span: 2;\r\n  grid-row: 1/3;\r\n  -ms-grid-column: 3;\r\n  -ms-grid-column-span: 4;\r\n  grid-column: 3/7;\r\n  z-index: 0;\r\n}\r\n\r\ndiv.error-summary {\r\n  -ms-grid-row: 2;\r\n  -ms-grid-row-span: 1;\r\n  grid-row: 2/3;\r\n  -ms-grid-column: 1;\r\n  -ms-grid-column-span: 1;\r\n  grid-column: 1/2;\r\n  z-index: 2;\r\n}\r\n\r\ndiv.response-history {\r\n  -ms-grid-row: 2;\r\n  -ms-grid-row-span: 1;\r\n  grid-row: 2/3;\r\n  -ms-grid-column: 2;\r\n  -ms-grid-column-span: 5;\r\n  grid-column: 2/7;\r\n  z-index: 1;\r\n}"
 
 /***/ }),
 
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>{{title}}</h1>\n<div class=\"grid-wrapper\">\n  <div class=\"response-time-gauge\">\n    <app-response-time-gauge></app-response-time-gauge>\n  </div>\n  <div class=\"percentiles-chart\">\n    <app-percentiles-chart></app-percentiles-chart>\n  </div>\n  <div class=\"response-history\">\n      <app-response-histogram></app-response-histogram>\n  </div>  \n</div>"
+module.exports = "<h1>{{title}}</h1>\n<div class=\"grid-wrapper\">\n  <div class=\"response-time-gauge\">\n    <app-response-time-gauge></app-response-time-gauge>\n  </div>\n  <div class=\"percentiles-chart\">\n    <app-percentiles-chart></app-percentiles-chart>\n  </div>\n  <div class=\"error-summary\">\n    <app-error-summary></app-error-summary>\n  </div>\n  <div class=\"response-history\">\n      <app-response-histogram></app-response-histogram>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -75,12 +75,14 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_service__ = __webpack_require__("./src/app/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__percentiles_chart_percentiles_chart_component__ = __webpack_require__("./src/app/percentiles-chart/percentiles-chart.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__response_histogram_response_histogram_component__ = __webpack_require__("./src/app/response-histogram/response-histogram.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__error_summary_error_summary_component__ = __webpack_require__("./src/app/error-summary/error-summary.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -98,7 +100,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_4__response_time_gauge_response_time_gauge_component__["a" /* ResponseTimeGaugeComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__percentiles_chart_percentiles_chart_component__["a" /* PercentilesChartComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__response_histogram_response_histogram_component__["a" /* ResponseHistogramComponent */]
+                __WEBPACK_IMPORTED_MODULE_7__response_histogram_response_histogram_component__["a" /* ResponseHistogramComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__error_summary_error_summary_component__["a" /* ErrorSummaryComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -157,10 +160,130 @@ var DataService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/error-summary/error-summary.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/error-summary/error-summary.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"errors-big\">\n<p>\n  <em>{{ totalErrors }}</em> errors\n</p>\n</div>\n<div class=\"errors-detail\" *ngIf=\"totalErrors > 0\">\n<p>\n  Least reliable: <em>{{ leastReliableEndpoint.name }}</em> ({{ leastReliableEndpoint.amount }} errors)\n</p>\n<p>\n  Most reliable: <em>{{ mostReliableEndpoint.name }}</em> ({{ mostReliableEndpoint.amount }} errors)\n</p>\n<p>\n  Most common: <em>{{ mostCommonError.name }}</em> ({{mostCommonError.amount}} errors)\n</p>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/error-summary/error-summary.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ErrorSummaryComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__metric_by_key__ = __webpack_require__("./src/app/metric-by-key.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_service__ = __webpack_require__("./src/app/data.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ErrorSummaryComponent = /** @class */ (function () {
+    function ErrorSummaryComponent(_data) {
+        this._data = _data;
+        this.leastReliableEndpoint = { name: "", amount: 0 };
+        this.mostReliableEndpoint = { name: "", amount: 0 };
+        this.mostCommonError = { name: "", amount: 0 };
+        this.totalErrors = 0;
+    }
+    ErrorSummaryComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._data.data.subscribe(function (result) {
+            _this.update(result);
+        });
+    };
+    ErrorSummaryComponent.prototype.update = function (data) {
+        if (data.errors) {
+            this.totalErrors = data.errors.reduce(function (acc, cur) { return acc + cur.total; }, 0);
+            var errorsByRoute = [];
+            for (var _i = 0, _a = data.errors; _i < _a.length; _i++) {
+                var e = _a[_i];
+                for (var _b = 0, _c = e.routes; _b < _c.length; _b++) {
+                    var r = _c[_b];
+                    if (!errorsByRoute[r.route]) {
+                        errorsByRoute[r.route] = { route: r.route, errors: r.errors };
+                    }
+                    else {
+                        errorsByRoute[r.route].errors = errorsByRoute[r.route].errors + r.errors;
+                    }
+                }
+            }
+            var mostErrors = -1;
+            var leastErrors = 2147483647;
+            var failureFreeEndpoint = data.response_times_by_endpoint.filter(function (x) { return !errorsByRoute[x.route]; })[0];
+            if (failureFreeEndpoint) {
+                leastErrors = 0;
+                this.mostReliableEndpoint = new __WEBPACK_IMPORTED_MODULE_1__metric_by_key__["a" /* MetricByKey */](failureFreeEndpoint.route, 0);
+            }
+            // Typescript `of` doesn't work on associative arrays
+            for (var r in errorsByRoute) {
+                if (errorsByRoute[r].errors > mostErrors) {
+                    this.leastReliableEndpoint = new __WEBPACK_IMPORTED_MODULE_1__metric_by_key__["a" /* MetricByKey */](errorsByRoute[r].route, errorsByRoute[r].errors);
+                    mostErrors = errorsByRoute[r].errors;
+                }
+                if (errorsByRoute[r].errors < leastErrors) {
+                    this.mostReliableEndpoint = new __WEBPACK_IMPORTED_MODULE_1__metric_by_key__["a" /* MetricByKey */](errorsByRoute[r].route, errorsByRoute[r].errors);
+                    leastErrors = errorsByRoute[r].errors;
+                }
+            }
+            var mostCommonError = data.errors.sort(function (a, b) { return b.total - a.total; })[0];
+            if (mostCommonError) {
+                this.mostCommonError = new __WEBPACK_IMPORTED_MODULE_1__metric_by_key__["a" /* MetricByKey */](mostCommonError.error, mostCommonError.total);
+            }
+        }
+    };
+    ErrorSummaryComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'app-error-summary',
+            template: __webpack_require__("./src/app/error-summary/error-summary.component.html"),
+            styles: [__webpack_require__("./src/app/error-summary/error-summary.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__data_service__["a" /* DataService */]])
+    ], ErrorSummaryComponent);
+    return ErrorSummaryComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/metric-by-key.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MetricByKey; });
+var MetricByKey = /** @class */ (function () {
+    function MetricByKey(name, amount) {
+        this.name = name;
+        this.amount = amount;
+    }
+    return MetricByKey;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/percentiles-chart/percentiles-chart.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "div.percentile-chart {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 2;\r\n  grid-column: 2;\r\n}"
+module.exports = ""
 
 /***/ }),
 
@@ -246,8 +369,13 @@ var PercentilesChartComponent = /** @class */ (function () {
     };
     PercentilesChartComponent.prototype.updateGraph = function () {
         var element = this.el.nativeElement;
-        var response_time = this.metrics.median_response_time;
-        __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(), this.getLayout());
+        if (this.metrics) {
+            var response_time = this.metrics.median_response_time;
+            __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(), this.getLayout());
+        }
+        else {
+            element.text = "No data";
+        }
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* ViewChild */])("chart"),
@@ -331,8 +459,13 @@ var ResponseHistogramComponent = /** @class */ (function () {
     };
     ResponseHistogramComponent.prototype.updateGraph = function () {
         var element = this.el.nativeElement;
-        var response_time = this.metrics.median_response_time;
-        __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(), this.getLayout());
+        if (this.metrics) {
+            var response_time = this.metrics.median_response_time;
+            __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(), this.getLayout());
+        }
+        else {
+            element.text = "No data";
+        }
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* ViewChild */])("chart"),
@@ -356,7 +489,7 @@ var ResponseHistogramComponent = /** @class */ (function () {
 /***/ "./src/app/response-time-gauge/response-time-gauge.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "div.response-time-gauge {\r\n  -ms-grid-row: 1;\r\n  grid-row: 1;\r\n  -ms-grid-column: 1;\r\n  grid-column: 1;\r\n}"
+module.exports = ""
 
 /***/ }),
 
@@ -466,8 +599,13 @@ var ResponseTimeGaugeComponent = /** @class */ (function () {
     };
     ResponseTimeGaugeComponent.prototype.updateGraph = function () {
         var element = this.el.nativeElement;
-        var response_time = this.metrics.median_response_time;
-        __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(response_time), this.getLayout(response_time));
+        if (this.metrics) {
+            var response_time = this.metrics.median_response_time;
+            __WEBPACK_IMPORTED_MODULE_1_plotly_js__["newPlot"](element, this.getGraphData(response_time), this.getLayout(response_time));
+        }
+        else {
+            element.text = "No data";
+        }
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* ViewChild */])("chart"),

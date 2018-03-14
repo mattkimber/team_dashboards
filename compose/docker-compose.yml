@@ -5,6 +5,7 @@ services:
       context: ../api
       dockerfile: Dockerfile
     image: collinsongroup/dashboard_api:latest
+    restart: always
     depends_on:
       - elastic_config
       - elastic_data    
@@ -19,6 +20,7 @@ services:
       context: ../dashboard
       dockerfile: Dockerfile
     image: collinsongroup/dashboard:latest
+    restart: always
     depends_on:
       - api
   elastic_data:
@@ -67,12 +69,19 @@ services:
       context: ../webserver
       dockerfile: Dockerfile
     image: collinsongroup/dashboard_server:latest
+    restart: always
     depends_on: 
       - api
       - dashboard
       - kibana
     ports: 
       - "80:80"
+  ornery:
+    build:
+      context: ../ornery
+      dockerfile: Dockerfile
+    image: collinsongroup/ornery:latest
+    restart: always
 secrets:
   dashboard_private_key:
     external: true

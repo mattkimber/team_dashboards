@@ -1,0 +1,14 @@
+{
+  "name": "ornery",
+  "version": "1.0.0",
+  "description": "Generates unpredictable errors, slow responses and problems",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Kimber <matt.kimber@collinsongroup.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

@@ -12,7 +12,7 @@ var config_client = new elasticsearch.Client({
 var getAllData = (index) => config_client
   .search({
     index: index,
-    q: "*.*",
+    q: "*",
     size: 1024
   })
   .then((data) => Promise.resolve(data.hits.hits.map(h => h._source)))

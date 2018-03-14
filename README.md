@@ -51,3 +51,23 @@ the following command:
 `sysctl -w vm.max_map_count=262144`
 
 Or change the value in `/etc/sysctl.conf`
+
+## Getting Started
+
+The stack comes with its own demo service, **ornery**, that you can use to explore creating dashboards.
+
+To set up some sample endpoints, run the following `curl` requests:
+
+```
+curl --request PUT \
+  --url http://localhost/api/endpoint/demo1 \
+  --header 'content-type: application/json' \
+  --data '{\n	"name": "/flaky",\n	"request": {\n "verb": "GET",\n		"uri": "http://ornery:3000/"\n }\n}'
+```
+
+```
+curl --request PUT \
+  --url http://localhost/api/endpoint/demo2 \
+  --header 'content-type: application/json' \
+  --data '{\n	"name": "/reliable",\n	"request": {\n "verb": "GET",\n		"uri": "http://ornery:3000/"\n }\n}'
+```
